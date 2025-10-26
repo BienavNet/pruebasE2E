@@ -2,6 +2,10 @@ on:
     push:
       branches: 
       - master
+permissions:
+    contents: write
+    pages: write
+    id-token: write
 jobs:
     pruebasE2E:
         name: Desplegando el ambiente
@@ -61,5 +65,5 @@ jobs:
           if: always()
           with:
             name: Playwright Tests
-            path: playwright-report/index.html
+            path: playwright-report/results.xml
             reporter: jest-junit
