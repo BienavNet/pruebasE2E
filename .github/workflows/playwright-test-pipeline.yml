@@ -12,8 +12,6 @@ jobs:
 
         - name: Instalando el entorno de NodeJS
           uses: actions/setup-node@v6.0.0
-          with:
-              cache: 'pnpm'
         
         - name: Cachear dependencias de pnpm
           uses: actions/cache@v4
@@ -50,7 +48,7 @@ jobs:
             name: playwright-report
             path: playwright-report/
             retention-days: 30
-            
+
         - name: Desplegando los reportes de Playwright en GithubActions
           if: ${{ always() }}
           uses: peaceiris/actions-gh-pages@v3
