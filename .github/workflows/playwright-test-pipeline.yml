@@ -12,6 +12,24 @@ jobs:
 
         - name: Instalando el entorno de NodeJS
           uses: actions/setup-node@v6.0.0
+          with:
+              cache: 'pnpm'
+        
+        - name: Cachear dependencias de pnpm
+          uses: actions/cache@v4
+          with:
+            path: ~/.pnpm-store
+            key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+            restore-keys: |
+              ${{ runner.os }}-pnpm-
+
+        - name: Cachear navegadores de Playwright
+          uses: actions/cache@v4
+          with:
+            path: ~/.cache/ms-playwright
+            key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
+            restore-keys: |
+              ${{ runner.os }}-playwright-
             
         - name: Instalando PNPM
           run: npm install -g pnpm
@@ -32,6 +50,7 @@ jobs:
             name: playwright-report
             path: playwright-report/
             retention-days: 30
+            
         - name: Desplegando los reportes de Playwright en GithubActions
           if: ${{ always() }}
           uses: peaceiris/actions-gh-pages@v3
@@ -44,5 +63,5 @@ jobs:
           if: always()
           with:
             name: Playwright Tests
-            path: playwright-report/results.xml
+            path: playwright-report/index.html
             reporter: jest-junit

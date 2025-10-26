@@ -1,5 +1,4 @@
 import {test, expect} from '@playwright/test'
-import { URL_BASE, MAX_TIMEOUT } from '../constants'
 
 const MOCK = {
     "name": "John Doe",
@@ -30,7 +29,6 @@ test.describe.configure({ mode: 'serial' });
 test.describe("Employees CRUD Test", () => {
 
     test("Register New Employee", async ({page}) => {
-        page.setDefaultTimeout(MAX_TIMEOUT)
         await page.goto(`/dashboard`)
         await (await page.waitForSelector('a:has-text("Nuevo Empleado")', {state: "attached"})).click()
         await (await page.waitForSelector("input[placeholder='Ingrese el nombre del empleado']", {state: "attached"})).fill(MOCK.name)
@@ -44,16 +42,14 @@ test.describe("Employees CRUD Test", () => {
 
     test("Employee List Table", async ({page}) => {
         
-        page.setDefaultTimeout(MAX_TIMEOUT)
         await page.goto(`/employees`)
-        await page.waitForSelector("tbody tr", {state: "attached"})
+        await page.waitForSelector("tbody", {state: "attached"})
         const tbody = await page.locator("tbody")
         const trList = await tbody.locator('tr').all()
         await expect(trList.length).toBeGreaterThan(0)
     })
     
     test("Update Employee", async ({page}) => {
-        page.setDefaultTimeout(MAX_TIMEOUT)
         await page.goto(`/employees`)
         await page.waitForSelector(`tbody tr`, {state: "attached"})
         await (await page.locator(`tbody tr`).locator("td a:has-text('Editar')")).click()
@@ -68,7 +64,6 @@ test.describe("Employees CRUD Test", () => {
     })
     
     test("Delete Employee", async ({page}) => {
-        page.setDefaultTimeout(MAX_TIMEOUT)
         await page.goto(`/employees`)
         await page.waitForSelector(`tbody tr`, {state: "attached"})
         page.on("dialog", async (dialog) => {
@@ -83,7 +78,6 @@ test.describe("Employees CRUD Test", () => {
     })
 
     test("Checking Error Messages", async ({page}) => {
-        page.setDefaultTimeout(MAX_TIMEOUT)
         await page.goto(`/employees/new`)
         await page.waitForSelector("input[placeholder='Ingrese el nombre del empleado']", {state: "attached"})
         const nameInput = await page.locator("input[placeholder='Ingrese el nombre del empleado']")
