@@ -10,17 +10,20 @@ jobs:
         - name: Comprobacion del codigo
           uses: actions/checkout@v4
 
-        - name: Configurando el entorno de NodeJS
+        - name: Instalando el entorno de NodeJS
           uses: actions/setup-node@v6.0.0
             
-        - name: Instalando las dependencias
-          run: npm ci
+        - name: Instalando PNPM
+          run: npm install -g pnpm
+
+        - name: Instalando las dependencias con PNPM
+          run: pnpm install --frozen-lockfile
           
         - name: Instalando Playwright
-          run: npx playwright install --with-deps
+          run: pnpm exec playwright install --with-deps
           
         - name: Ejecutando los tests
-          run: npx playwright test --project=chromium
+          run: pnpm playwright test --project=chromium
 
         - name: Exportando los resultados
           uses: actions/upload-artifact@v4
