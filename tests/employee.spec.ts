@@ -31,7 +31,7 @@ test.describe("Employees CRUD Test", () => {
 
     test("Register New Employee", async ({page}) => {
         page.setDefaultTimeout(MAX_TIMEOUT)
-        await page.goto(`${URL_BASE}/dashboard`)
+        await page.goto(`/dashboard`)
         await (await page.waitForSelector('a:has-text("Nuevo Empleado")', {state: "attached"})).click()
         await (await page.waitForSelector("input[placeholder='Ingrese el nombre del empleado']", {state: "attached"})).fill(MOCK.name)
         await (await page.waitForSelector("input[placeholder='Ingrese la posición del empleado']", {state: "attached"})).fill(MOCK.position)
@@ -45,7 +45,7 @@ test.describe("Employees CRUD Test", () => {
     test("Employee List Table", async ({page}) => {
         
         page.setDefaultTimeout(MAX_TIMEOUT)
-        await page.goto(`${URL_BASE}/employees`)
+        await page.goto(`/employees`)
         await page.waitForSelector("tbody tr", {state: "attached"})
         const tbody = await page.locator("tbody")
         const trList = await tbody.locator('tr').all()
@@ -54,7 +54,7 @@ test.describe("Employees CRUD Test", () => {
     
     test("Update Employee", async ({page}) => {
         page.setDefaultTimeout(MAX_TIMEOUT)
-        await page.goto(`${URL_BASE}/employees`)
+        await page.goto(`/employees`)
         await page.waitForSelector(`tbody tr`, {state: "attached"})
         await (await page.locator(`tbody tr`).locator("td a:has-text('Editar')")).click()
         await (await page.waitForSelector("input[placeholder='Ingrese el nombre del empleado']", {state: 'attached'})).fill(UPDATE_MODK.name)
@@ -69,7 +69,7 @@ test.describe("Employees CRUD Test", () => {
     
     test("Delete Employee", async ({page}) => {
         page.setDefaultTimeout(MAX_TIMEOUT)
-        await page.goto(`${URL_BASE}/employees`)
+        await page.goto(`/employees`)
         await page.waitForSelector(`tbody tr`, {state: "attached"})
         page.on("dialog", async (dialog) => {
             await expect(dialog.type()).toBe('confirm')
@@ -84,7 +84,7 @@ test.describe("Employees CRUD Test", () => {
 
     test("Checking Error Messages", async ({page}) => {
         page.setDefaultTimeout(MAX_TIMEOUT)
-        await page.goto(`${URL_BASE}/employees/new`)
+        await page.goto(`/employees/new`)
         await page.waitForSelector("input[placeholder='Ingrese el nombre del empleado']", {state: "attached"})
         const nameInput = await page.locator("input[placeholder='Ingrese el nombre del empleado']")
         await nameInput.focus()
