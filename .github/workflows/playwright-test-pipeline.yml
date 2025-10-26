@@ -1,0 +1,33 @@
+on:
+    push:
+      branches: 
+      - master
+jobs:
+    pruebasE2E:
+        name: Desplegando el ambiente
+        runs-on: ubuntu-latest
+        steps:
+        - name: Comprobacion del codigo
+          uses: actions/checkout@v4
+
+        - name: Configurando el entorno de NodeJS
+          uses: actions/setup-node@v6.0.0
+          with:
+            node-version-file: package.json
+            
+        - name: Instalando las dependencias
+          run: npm ci
+          
+        - name: Instalando Playwright
+          run: npx playwright install --with-deps
+          
+        - name: Ejecutando los tests
+          run: npx playwright test --project=chromium
+
+        - name: Exportando los resultados
+          uses: actions/upload-artifact@v4
+          if: ${{ always() }} # Se ejecuta incluso si las pruebas fallan o son canceladas
+          with:
+            name: playwright-report
+            path: playwright-report/
+            retention-days: 30
