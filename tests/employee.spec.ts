@@ -25,7 +25,7 @@ function formatToCurrency(amount: number): string {
 }
 
 test.describe.configure({ mode: 'serial' });
-
+/* Comentario */
 test.describe("Employees CRUD Test", () => {
 
     test("Register New Employee", async ({page}) => {
