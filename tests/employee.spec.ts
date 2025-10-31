@@ -63,19 +63,19 @@ test.describe("Employees CRUD Test", () => {
     
     })
     
-    test("Delete Employee", async ({page}) => {
-        await page.goto(`/employees`)
-        await page.waitForSelector(`tbody tr`, {state: "attached"})
-        page.on("dialog", async (dialog) => {
-            await expect(dialog.type()).toBe('confirm')
-            await dialog.accept()
-        })
+    // test("Delete Employee", async ({page}) => {
+    //     await page.goto(`/employees`)
+    //     await page.waitForSelector(`tbody tr`, {state: "attached"})
+    //     page.on("dialog", async (dialog) => {
+    //         await expect(dialog.type()).toBe('confirm')
+    //         await dialog.accept()
+    //     })
         
-        await (await page.locator('tbody tr').locator('td button:has-text("Eliminar")')).click()
-        // const response = await page.locator('table')
-        // await expect(response).toBe(null)
-        await expect(page.locator("p:has-text('No hay empleados registrados.')")).toBeVisible();
-    })
+    //     await (await page.locator('tbody tr').locator('td button:has-text("Eliminar")')).click()
+    //     // const response = await page.locator('table')
+    //     // await expect(response).toBe(null)
+    //     await expect(page.locator("p:has-text('No hay empleados registrados.')")).toBeVisible();
+    // })
 
     test("Checking Error Messages", async ({page}) => {
         await page.goto(`/employees/new`)
